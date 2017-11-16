@@ -1,5 +1,6 @@
 package fr.afcepf.dja.rest;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.GET;
@@ -23,6 +24,11 @@ public class MySimpleRestService {
 	@Inject //equivalent CDI/JEE6 (compatible EJB) de @Autowired de Spring
 	private ServiceTva ejbServiceTva;//ServiceTva est l'interface de l'ejb
 	
+	@PostConstruct
+	public void verifInject(){
+		System.out.println("dans MySimpleRestService , ejbServiceTva="+ejbServiceTva);
+	}
+	
 	@GET
 	@Path("/calculerTvaEtTtc")
 	// http:localhost:8080/cdiWeb/services/rest/tva/calculerTvaEtTtc?ht=200&taux=20
@@ -31,13 +37,6 @@ public class MySimpleRestService {
 		return ejbServiceTva.calculerTvaEtTtc(ht, taux);
 	}
 
-	public ServiceTva getEjbServiceTva() {
-		return ejbServiceTva;
-	}
-
-	public void setEjbServiceTva(ServiceTva ejbServiceTva) {
-		this.ejbServiceTva = ejbServiceTva;
-	}
 	
 	
 }
