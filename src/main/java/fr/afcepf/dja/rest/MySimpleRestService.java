@@ -1,7 +1,7 @@
 package fr.afcepf.dja.rest;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
+import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -16,17 +16,22 @@ import fr.afcepf.dja.ws.ServiceTva;
  */
 @Path("tva")
 @Produces("application/json")
-@Named //equivalent CDI de @Component de Spring
+//@Named //equivalent CDI de @Component de Spring
 public class MySimpleRestService {
 	
 	//NB: @Inject fonctionne bien avec un ejb @Local 
 	                  //mais pas bien avec un ejb @Remote
-	@Inject //equivalent CDI/JEE6 (compatible EJB) de @Autowired de Spring
+	//@Inject //equivalent CDI/JEE6 (compatible EJB) de @Autowired de Spring
+	@EJB
 	private ServiceTva ejbServiceTva;//ServiceTva est l'interface de l'ejb
+	
+	public MySimpleRestService(){
+		System.out.println("constructeur MySimpleRestService: " + this);
+	}
 	
 	@PostConstruct
 	public void verifInject(){
-		System.out.println("dans MySimpleRestService , ejbServiceTva="+ejbServiceTva);
+		System.out.println("dans MySimpleRestService , ejbServiceTva="+ejbServiceTva + " sur instance " + this);
 	}
 	
 	@GET
